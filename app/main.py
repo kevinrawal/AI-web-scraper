@@ -1,4 +1,10 @@
+import sys
+import os
 import streamlit as st
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# pylint: disable=C0413
+from app.scrape import scrape_data
 
 # Initialize session state to store chat history, scraped_data and question
 if "chat_history" not in st.session_state:
@@ -12,6 +18,17 @@ if "question" not in st.session_state:
 
 if "query_submitted" not in st.session_state:
     st.session_state["query_submitted"] = False
+
+
+# TODO - If needed add this to on_click when `Scrape it` button is clicked
+def reset_chat_history():
+    """
+    Resets the chat history by clearing the session state's chat history list.
+
+    Returns:
+        None
+    """
+    st.session_state["chat_history"] = []
 
 
 def update_chat_history():
@@ -41,10 +58,7 @@ url = st.text_input("Enter the URL you want to scrape:")
 
 if st.button("Scrap It"):
     if url:
-        # TODO - scrape the website
-        scraped_data = (
-            "Scraped content goes here..."  # Placeholder for actual scraped data
-        )
+        scraped_data = scrape_data(url)
         st.session_state["scraped_data"] = scraped_data
         st.success("Site scraped successfully!")
     else:
@@ -57,7 +71,6 @@ if st.session_state["scraped_data"]:
             "Scraped Content",
             value=st.session_state["scraped_data"],
             height=200,
-            disabled=True,
         )
 
 # Q/A Section
