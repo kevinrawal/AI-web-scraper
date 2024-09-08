@@ -1,10 +1,6 @@
-import sys
-import os
 import streamlit as st
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-# pylint: disable=C0413
-from app.scrape import scrape_data
+from utils.scrape import scrape_data
 
 # Initialize session state to store chat history, scraped_data and question
 if "chat_history" not in st.session_state:

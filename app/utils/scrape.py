@@ -1,4 +1,3 @@
-import os
 from typing import List, Dict
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -17,13 +16,11 @@ def fetch_page_source(url: str) -> str:
     Returns:
         str: The HTML page source of the webpage.
     """
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    chromedriver_path = os.path.join(script_dir, "chromedriver.exe")
 
     chrome_options = Options()
     chrome_options.add_argument("--headless")  # Headless mode
     driver = webdriver.Chrome(
-        service=Service(chromedriver_path), options=chrome_options
+        service=Service("app/chromedriver.exe"), options=chrome_options
     )
 
     try:
@@ -133,5 +130,9 @@ def scrape_data(url: str) -> Dict:
     """
 
     page_source = fetch_page_source(url)
+
+    if page_source == "":
+        return {}
+
     page_data = parse_page_data(page_source)
     return page_data

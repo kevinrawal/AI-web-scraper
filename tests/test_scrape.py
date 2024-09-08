@@ -7,7 +7,7 @@ import pytest
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # pylint: disable=C0413
-from app.scrape import scrape_data, parse_page_data, fetch_page_source
+from app.utils.scrape import scrape_data, parse_page_data, fetch_page_source
 
 # Mock HTML content
 SAMPLE_HTML = """
@@ -30,7 +30,7 @@ SAMPLE_HTML = """
 """
 
 
-@patch("app.scrape.fetch_page_source")
+@patch("app.utils.scrape.fetch_page_source")
 def test_scrape_data(mock_fetch_page_source):
     """
     This function tests the scrape_data function by mocking the fetch_page_source function.
@@ -85,7 +85,7 @@ def test_parse_page_data():
     assert "Main Header" in headers
 
 
-@patch("app.scrape.webdriver.Chrome")
+@patch("app.utils.scrape.webdriver.Chrome")
 @patch("sys.stdout", new_callable=io.StringIO)
 def test_fetch_page_source_timeout(mock_stdout, mock_chrome_driver):
     """
@@ -110,7 +110,7 @@ def test_fetch_page_source_timeout(mock_stdout, mock_chrome_driver):
     assert result == ""
 
 
-@patch("app.scrape.webdriver.Chrome")
+@patch("app.utils.scrape.webdriver.Chrome")
 @patch("sys.stdout", new_callable=io.StringIO)
 def test_fetch_page_source_webdriver_exception(mock_stdout, mock_chrome_driver):
     """
